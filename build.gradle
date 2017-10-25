@@ -27,7 +27,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile 'no.tornado:tornadofx:1.7.11'
     compile 'org.seleniumhq.selenium:selenium-java:3.0.1'
 
-    compileTest 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }
