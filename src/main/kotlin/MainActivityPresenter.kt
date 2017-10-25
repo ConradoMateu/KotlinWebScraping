@@ -1,16 +1,29 @@
+import di.kdi
 import tornadofx.Controller
 import tornadofx.observable
+import usecases.GetBrands
+import usecases.GetProducts
 
 class MainActivityPresenter : Controller() {
-    val articles = listOf("Todos", "Cafetera", "Cafetera goteo").observable()
-    val brands = listOf("Nespresso", "Tassimo").observable()
 
-    private val selectedBrands: List<Pair<String, Boolean>> = brands.map { Pair(it, false) }
-    var selectedArticle: String = articles[0]
+    private val getAllProducts: GetProducts by kdi()
+    private val getAllBrands: GetBrands by kdi()
 
-    fun handleSelectBrand(brand: String, isSelected: Boolean) {
-        selectedBrands.map {
-            if (it.first == brand) Pair(brand, isSelected) else it
+    val articles = mutableListOf("Todos").observable()
+    val brands = mutableListOf<String>().observable()
+
+    init {
+        articles.addAll(getAllProducts.execute())
+        brands.addAll(getAllBrands.execute())
+    }
+
+    fun searchItems(article: String, brands: List<String>) {
+        val brandsAux = brands.joinToString()
+        if (article == articles[0]) {
+            println("Se va a buscar Cafeteras de las marcas $brandsAux")
+        } else {
+            println("Se va a buscar $article de las marcas $brandsAux")
         }
     }
+
 }
