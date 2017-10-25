@@ -13,7 +13,6 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'gauge'
 
 repositories {
     mavenCentral()
