@@ -13,7 +13,13 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'gauge'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
 
 repositories {
     mavenCentral()
@@ -21,13 +27,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile('junit:junit:4.12',
-            'org.seleniumhq.selenium:selenium-java:3.0.1')
+    compile 'org.seleniumhq.selenium:selenium-java:3.0.1'
 
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
+    compileTest 'junit:junit:4.12'
 }
