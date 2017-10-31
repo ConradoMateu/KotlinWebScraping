@@ -8,25 +8,25 @@ import org.openqa.selenium.WebElement
  * Created by ConradoMateu on 27/10/2017.
  */
 
-class CorteInglesRepository(override var driver: WebDriver) : StoreRepository{
-
-
-    override fun browse() {
-        driver.get(CONSTANTS.AMAZON.URL)
-    }
-
-    override fun findElement(by: By): WebElement {
-        return driver.findElement(by)
-    }
-
-    override fun findElements(by: By): List<WebElement> {
-        return driver.findElements(by)
-    }
-
-    override fun search(element: WebElement, text: String){
-        element.sendKeys(text)
-        element.submit()
-    }
-
-
-}
+//class CorteInglesRepository(override var driver: WebDriver) : StoreRepository{
+//
+//
+//    override fun browse() {
+//        driver.get(CONSTANTS.AMAZON.URL)
+//    }
+//
+//    override fun findElement(by: By): WebElement {
+//        return driver.findElement(by)
+//    }
+//
+//    override fun findElements(by: By): List<WebElement> {
+//        return driver.findElements(by)
+//    }
+//
+//    override fun search(element: WebElement, text: String){
+//        element.sendKeys(text)
+//        element.submit()
+//    }
+//
+//
+//}

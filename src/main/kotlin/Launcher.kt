@@ -2,7 +2,6 @@ import com.github.salomonbrys.kodein.*
 import datasource.BrandDAO
 import datasource.ProductDAO
 import datasource.Stores.AmazonRepository
-import datasource.Stores.CorteInglesRepository
 import datasource.Stores.StoreRepository
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -10,19 +9,20 @@ import tornadofx.App
 import tornadofx.launch
 import usecases.GetBrands
 import usecases.GetProducts
-import usecases.SearchProducts
+import usecases.AmazonSearchProduct
 
 class Application : App(MainActivity::class) {
     companion object {
         val kodein = Kodein {
             bind<BrandDAO>() with singleton { BrandDAO() }
             bind<ProductDAO>() with singleton { ProductDAO() }
+            bind<WebDriver>() with singleton { ChromeDriver() }
 
-            bind<StoreRepository>("https://www.amazon.es") with provider { AmazonRepository(ChromeDriver()) }
-            bind<StoreRepository>("https://www.elcorteingles.es") with provider { CorteInglesRepository(ChromeDriver()) }
+            bind<StoreRepository>("https://www.amazon.es") with provider { AmazonRepository() }
 
             bind<GetBrands>() with provider { GetBrands() }
             bind<GetProducts>() with provider { GetProducts() }
+            bind<AmazonSearchProduct>() with provider { AmazonSearchProduct() }
         }
     }
 

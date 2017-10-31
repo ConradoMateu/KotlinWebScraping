@@ -1,13 +1,12 @@
 package usecases
 
-import base.UseCase
 import datasource.ProductDAO
 import di.kdi
 
-class GetProducts : UseCase<List<String>> {
+class GetProducts {
 
     private val productDAO : ProductDAO by kdi()
 
-    override fun execute(): List<String> = productDAO.getAll()
+    operator fun invoke(): List<String> = productDAO.getAll()
 
 }
