@@ -17,12 +17,13 @@ class MainActivityPresenter : Controller() {
         brands.addAll(getAllBrands.execute())
     }
 
-    fun searchItems(article: String, brands: List<String>) {
+    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>) {
         val brandsAux = brands.joinToString()
+        val selectedStores = stores.filter { (_, value) -> value }.map { (key, _) -> key }
         if (article == articles[0]) {
-            println("Se va a buscar Cafeteras de las marcas $brandsAux")
+            println("Se va a buscar Cafeteras de las marcas $brandsAux en las tiendas: $selectedStores")
         } else {
-            println("Se va a buscar $article de las marcas $brandsAux")
+            println("Se va a buscar $article de las marcas $brandsAux en las tiends: $selectedStores")
         }
     }
 
