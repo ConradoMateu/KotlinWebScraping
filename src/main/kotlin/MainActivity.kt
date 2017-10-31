@@ -59,10 +59,12 @@ class MainActivity : View() {
                         val article = comboArticles.value
                         val brands = brandsListView.selectionModel.selectedItems
 
-                        if (brands.isEmpty()) {
-                            presenter.searchItems(article, presenter.brands, selectedStores)
-                        } else {
-                            presenter.searchItems(article, brands, selectedStores)
+                        if (selectedStores.isNotEmpty()) {
+                            if (brands.isEmpty()) {
+                                presenter.searchItems(article, presenter.brands, selectedStores)
+                            } else {
+                                presenter.searchItems(article, brands, selectedStores)
+                            }
                         }
                     }
                 }
