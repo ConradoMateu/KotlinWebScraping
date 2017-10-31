@@ -10,7 +10,7 @@ import sun.rmi.rmic.Constants
  * Created by ConradoMateu on 26/10/2017.
  */
 
-class AmazonRepository(override var driver: WebDriver) : StoreRepository{
+class AmazonRepository(override var driver: WebDriver) : StoreRepository {
 
 
     override fun browse() {
@@ -23,10 +23,6 @@ class AmazonRepository(override var driver: WebDriver) : StoreRepository{
 
     override fun findElements(by: By): List<WebElement> {
         return driver.findElements(by)
-    }
-
-    override fun configureWebDriver(type: String, path: String) {
-        System.setProperty(type,path)
     }
 
     override fun search(element: WebElement,text: String){

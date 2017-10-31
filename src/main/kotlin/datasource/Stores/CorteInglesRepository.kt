@@ -23,10 +23,6 @@ class CorteInglesRepository(override var driver: WebDriver) : StoreRepository{
         return driver.findElements(by)
     }
 
-    override fun configureWebDriver(type: String, path: String) {
-        System.setProperty(type,path)
-    }
-
     override fun search(element: WebElement, text: String){
         element.sendKeys(text)
         element.submit()

@@ -13,6 +13,5 @@ interface StoreRepository{
     fun browse()
     fun findElement(by: By): WebElement
     fun findElements(by:By): List<WebElement>
-    fun configureWebDriver(type: String = CONSTANTS.CHROME.PATH, path: String = CONSTANTS.CHROME.TYPE)
     fun search(element: WebElement,text: String)
 }
