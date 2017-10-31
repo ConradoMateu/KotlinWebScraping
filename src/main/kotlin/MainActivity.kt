@@ -1,10 +1,8 @@
-import javafx.geometry.Insets
 import javafx.scene.control.ComboBox
 import javafx.scene.control.ListView
 import javafx.scene.control.SelectionMode
-import javafx.scene.layout.*
-import javafx.scene.paint.Color
-import javafx.scene.text.Font
+import javafx.scene.layout.Priority
+import javafx.scene.layout.VBox
 import tornadofx.*
 
 class MainActivity : View() {
@@ -13,15 +11,29 @@ class MainActivity : View() {
 
     private lateinit var brandsListView: ListView<String>
     private lateinit var comboArticles: ComboBox<String>
-
+    private val selectedStores = mutableMapOf(
+            "https://www.amazon.es" to true,
+            "https://www.elcorteingles.es" to true)
 
     init {
         root.stylesheets.add(javaClass.classLoader.getResource("bootstrap3.css").toExternalForm())
         vbox(16) {
             hbox(6) {
-                label("Seleccione un artículo")
-                comboArticles = combobox(values = presenter.articles).apply {
-                    value = presenter.articles[0]
+                vbox(4) {
+                    label("Seleccione un artículo")
+                    comboArticles = combobox(values = presenter.articles).apply {
+                        value = presenter.articles[0]
+                    }
+
+                    label("Seleccione tiendas")
+                    checkbox("Amazon") {
+                        isSelected = true
+                        action { selectedStores.replace("https://www.amazon.es", isSelected) }
+                    }
+                    checkbox("El corte inglés") {
+                        isSelected = true
+                        action { selectedStores.replace("https://www.elcorteingles.es", isSelected) }
+                    }
                 }
             }
 
@@ -46,7 +58,12 @@ class MainActivity : View() {
                     action {
                         val article = comboArticles.value
                         val brands = brandsListView.selectionModel.selectedItems
-                        presenter.searchItems(article, brands)
+
+                        if (brands.isEmpty()) {
+                            presenter.searchItems(article, presenter.brands, selectedStores)
+                        } else {
+                            presenter.searchItems(article, brands, selectedStores)
+                        }
                     }
                 }
             }
