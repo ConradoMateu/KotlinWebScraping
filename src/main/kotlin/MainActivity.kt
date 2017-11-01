@@ -6,7 +6,6 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 
 class MainActivity : View() {
-    override val root: VBox = VBox()
     private val presenter: MainActivityPresenter by inject()
 
     private lateinit var brandsListView: ListView<String>
@@ -15,61 +14,62 @@ class MainActivity : View() {
             "https://www.amazon.es" to true,
             "https://www.elcorteingles.es" to true)
 
-    init {
-        root.stylesheets.add(javaClass.classLoader.getResource("bootstrap3.css").toExternalForm())
-        vbox(16) {
-            hbox(6) {
-                vbox(4) {
-                    label("Seleccione un artículo")
-                    comboArticles = combobox(values = presenter.articles).apply {
-                        value = presenter.articles[0]
-                    }
+    override val root = vbox(16) {
+        hbox(6) {
+            vbox(4) {
+                label("Seleccione un artículo")
+                comboArticles = combobox(values = presenter.articles).apply {
+                    value = presenter.articles[0]
+                }
 
-                    label("Seleccione tiendas")
-                    checkbox("Amazon") {
-                        isSelected = true
-                        action { selectedStores.replace("https://www.amazon.es", isSelected) }
-                    }
-                    checkbox("El corte inglés") {
-                        isSelected = true
-                        action { selectedStores.replace("https://www.elcorteingles.es", isSelected) }
-                    }
+                label("Seleccione tiendas")
+                checkbox("Amazon") {
+                    isSelected = true
+                    action { selectedStores.replace("https://www.amazon.es", isSelected) }
+                }
+                checkbox("El corte inglés") {
+                    isSelected = true
+                    action { selectedStores.replace("https://www.elcorteingles.es", isSelected) }
                 }
             }
+        }
 
-            hbox {
-                vgrow = Priority.ALWAYS
-                vbox(6) {
-                    hgrow = Priority.ALWAYS
+        hbox {
+            vgrow = Priority.ALWAYS
+            vbox(6) {
+                hgrow = Priority.ALWAYS
 
-                    label("Seleccione las marcas")
-                    brandsListView = listview(presenter.brands) {
-                        selectionModel.selectionMode = SelectionMode.MULTIPLE
-                    }
+                label("Seleccione las marcas")
+                brandsListView = listview(presenter.brands) {
+                    selectionModel.selectionMode = SelectionMode.MULTIPLE
                 }
             }
+        }
 
-            hbox {
-                button("Search!") {
-                    useMaxWidth = true
-                    hgrow = Priority.ALWAYS
-                    styleClass.add("primary")
+        hbox {
+            button("Search!") {
+                useMaxWidth = true
+                hgrow = Priority.ALWAYS
+                styleClass.add("primary")
 
-                    action {
-                        val article = comboArticles.value
-                        val brands = brandsListView.selectionModel.selectedItems
+                action {
+                    val article = comboArticles.value
+                    val brands = brandsListView.selectionModel.selectedItems
 
-                        if (selectedStores.any { (_, value) -> value }) {
-                            if (brands.isEmpty()) {
-                                presenter.searchItems(article, presenter.brands, selectedStores)
-                            } else {
-                                presenter.searchItems(article, brands, selectedStores)
-                            }
+                    if (selectedStores.any { (_, value) -> value }) {
+                        if (brands.isEmpty()) {
+                            presenter.searchItems(article, presenter.brands, selectedStores)
+                        } else {
+                            presenter.searchItems(article, brands, selectedStores)
                         }
                     }
                 }
             }
         }
 
+    }
+
+    init {
+        root.stylesheets.add(javaClass.classLoader.getResource("bootstrap3.css").toExternalForm())
     }
 }

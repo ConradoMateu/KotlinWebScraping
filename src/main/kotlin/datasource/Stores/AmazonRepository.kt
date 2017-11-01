@@ -12,23 +12,6 @@ import java.util.concurrent.TimeUnit
 
 class AmazonRepository : StoreRepository() {
 
-    override fun browse() {
-        driver.get(CONSTANTS.AMAZON.URL)
-    }
-
-    override fun findElement(by: By): WebElement {
-        return driver.findElement(by)
-    }
-
-    override fun findElements(by: By): List<WebElement> {
-        return driver.findElements(by)
-    }
-
-    override fun search(element: WebElement,text: String){
-        element.sendKeys(text)
-        element.submit()
-    }
-
     override fun waitForPageToLoad() {
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS)
     }

@@ -7,9 +7,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import tornadofx.App
 import tornadofx.launch
-import usecases.GetBrands
-import usecases.GetProducts
-import usecases.AmazonSearchProduct
+import usecases.*
 
 class Application : App(MainActivity::class) {
     companion object {
@@ -22,6 +20,8 @@ class Application : App(MainActivity::class) {
 
             bind<GetBrands>() with provider { GetBrands() }
             bind<GetProducts>() with provider { GetProducts() }
+            bind<GetProcessedProducts>() with provider { GetProcessedProducts() }
+            bind<AddProcessedProducts>() with provider { AddProcessedProducts() }
             bind<AmazonSearchProduct>() with provider { AmazonSearchProduct() }
         }
     }

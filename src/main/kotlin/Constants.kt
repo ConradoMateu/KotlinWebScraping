@@ -18,7 +18,7 @@ object CONSTANTS{
     }
 
     object AMAZON{
-        val URL = "https://amazon.es"
+        val URL = "https://www.amazon.es"
     }
 
     object CORTEINGLES{
