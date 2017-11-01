@@ -57,11 +57,8 @@ class MainActivity : View() {
                     val brands = brandsListView.selectionModel.selectedItems
 
                     if (selectedStores.any { (_, value) -> value }) {
-                        if (brands.isEmpty()) {
-                            presenter.searchItems(article, presenter.brands, selectedStores)
-                        } else {
-                            presenter.searchItems(article, brands, selectedStores)
-                        }
+                        presenter.searchItems(article, brands, selectedStores)
+
                     }
                 }
             }

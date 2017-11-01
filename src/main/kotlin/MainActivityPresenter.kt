@@ -1,5 +1,6 @@
 import com.github.salomonbrys.kodein.factory
 import di.kdi
+import domain.Product
 import javafx.scene.Scene
 import javafx.stage.Stage
 import tornadofx.Controller
@@ -28,8 +29,17 @@ class MainActivityPresenter : Controller() {
         val selectedStores = stores.filter { (_, value) -> value }.map { (key, _) -> key }
 
         if (selectedStores.contains("https://www.amazon.es")) {
-            val products = searchProducts(if (article == articles[0]) "Cafetera" else article, 1)
-            addProcessedProducts(products)
+            if (brands.isNotEmpty()) {
+                brands
+                    .map { brand: String ->
+                        searchProducts(if (article == articles[0]) "Cafetera" else article, brand, 1)
+                    }
+                    .flatten()
+                    .apply { addProcessedProducts(this) }
+            } else {
+                val products = searchProducts(if (article == articles[0]) "Cafetera" else article, page = 1)
+                addProcessedProducts(products)
+            }
         }
 
         val resultsActivity = ResultsActivity()
