@@ -43,8 +43,12 @@ class AmazonSearchProduct : ISearchProducts {
                     }
             result.addAll(items)
 
-            val nextPage = webDriver.findElement(By.id("pagnNextLink")).getAttribute("href")
-            webDriver.browse(nextPage)
+            try {
+                val nextPage = webDriver.findElement(By.id("pagnNextLink")).getAttribute("href")
+                webDriver.browse(nextPage)
+            } catch (ex: Exception) {
+                return result
+            }
         }
 
         return result
