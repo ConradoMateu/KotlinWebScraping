@@ -1,6 +1,6 @@
-Cafeteras italianas
-Cafeteras de goteo
-Cafeteras de espresso manuales
-Cafeteras de capsulas
-Cafeteras automaticas
-Cafeteras combinadas espresso/goteo
+Cafetera italianas
+Cafetera de goteo
+Cafetera espresso manual
+Cafetera capsulas
+Cafetera automatica
+Cafetera combinada espresso y goteo
