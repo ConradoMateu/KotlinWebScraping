@@ -1,11 +1,30 @@
 import domain.Product
-import javafx.scene.Parent
-import javafx.scene.layout.VBox
+import javafx.scene.Scene
+import javafx.stage.Stage
 import tornadofx.*
+import usecases.GetProcessedProducts
 
-class ResultsActivity : View() {
-    private val presenter: ResultsActivityPresenter by inject()
+class ResultsActivity(private val presenter: ResultsActivityPresenter) : View() {
 
+    companion object {
+        fun navigateWithPreviousResults() {
+            val presenter = ResultsActivityPresenter(GetProcessedProducts())
+            val resultsActivity = ResultsActivity(presenter)
+            presenter.showStoredData()
+            val stage = Stage()
+            stage.scene = Scene(resultsActivity.root)
+            stage.show()
+        }
+
+        fun navigateWithResults(results: List<Product>) {
+            val presenter = ResultsActivityPresenter(GetProcessedProducts())
+            val resultsActivity = ResultsActivity(presenter)
+            presenter.showSpecificData(results)
+            val stage = Stage()
+            stage.scene = Scene(resultsActivity.root)
+            stage.show()
+        }
+    }
 
     override val root = borderpane {
         prefWidth = 1350.0

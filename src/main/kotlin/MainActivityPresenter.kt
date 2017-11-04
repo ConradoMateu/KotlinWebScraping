@@ -1,14 +1,8 @@
-import com.github.salomonbrys.kodein.factory
 import di.kdi
 import domain.Product
-import javafx.scene.Scene
-import javafx.stage.Stage
 import tornadofx.Controller
 import tornadofx.observable
-import usecases.AddProcessedProducts
-import usecases.GetBrands
-import usecases.GetProducts
-import usecases.AmazonSearchProduct
+import usecases.*
 
 class MainActivityPresenter : Controller() {
 
@@ -16,7 +10,6 @@ class MainActivityPresenter : Controller() {
     private val getAllBrands: GetBrands by kdi()
     private val addProcessedProducts: AddProcessedProducts by kdi()
     private val searchProducts: AmazonSearchProduct by kdi()
-
     val articles = mutableListOf("Todos").observable()
     val brands = mutableListOf<String>().observable()
 
@@ -25,27 +18,29 @@ class MainActivityPresenter : Controller() {
         brands.addAll(getAllBrands())
     }
 
-    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>) {
+    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>, pages: Int = 1, keepResults: Boolean = false) {
         val selectedStores = stores.filter { (_, value) -> value }.map { (key, _) -> key }
+        var products: List<Product>
 
         if (selectedStores.contains("https://www.amazon.es")) {
             if (brands.isNotEmpty()) {
-                brands
+                products = brands
                     .map { brand: String ->
-                        searchProducts(if (article == articles[0]) "Cafetera" else article, brand, 1)
-                    }
-                    .flatten()
-                    .apply { addProcessedProducts(this) }
-            } else {
-                val products = searchProducts(if (article == articles[0]) "Cafetera" else article, page = 1)
+                        searchProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
+                    }.flatten()
                 addProcessedProducts(products)
+            } else {
+                products = searchProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
+                addProcessedProducts(products)
+            }
+
+            if (keepResults) {
+                ResultsActivity.navigateWithPreviousResults()
+            } else {
+                ResultsActivity.navigateWithResults(products)
             }
         }
 
-        val resultsActivity = ResultsActivity()
-        val stage = Stage()
-        stage.scene = Scene(resultsActivity.root)
-        stage.show()
     }
 
 }

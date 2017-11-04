@@ -14,7 +14,8 @@ class ProductDAO {
             processedProducts
 
     fun addAll(products: List<Product>): List<Product> {
-        processedProducts.addAll(products)
+        val newProducts = products.minus(processedProducts)
+        processedProducts.addAll(newProducts)
         return processedProducts
     }
 

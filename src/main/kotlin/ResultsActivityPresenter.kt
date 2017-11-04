@@ -1,18 +1,19 @@
-import di.kdi
 import domain.Product
 import javafx.collections.ObservableList
 import tornadofx.Controller
 import tornadofx.observable
 import usecases.GetProcessedProducts
 
-class ResultsActivityPresenter : Controller() {
+class ResultsActivityPresenter(private val getProcessedProducts: GetProcessedProducts) : Controller() {
 
-    private val getProcessedProducts: GetProcessedProducts by kdi()
+    var products: ObservableList<Product> = mutableListOf<Product>().observable()
 
-    val products: ObservableList<Product> = mutableListOf<Product>().observable()
-
-    init {
+    fun showStoredData() {
         products.addAll(getProcessedProducts())
+    }
+
+    fun showSpecificData(data: List<Product>) {
+        products.addAll(data)
     }
 
 }

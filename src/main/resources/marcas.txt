@@ -1,6 +1,8 @@
 Delonghi
 Krups
+Pedrini
 Philips
+Ilsa
 Proline
 Marcilla
 Bialetti
@@ -14,6 +16,7 @@ Pompadour
 Kenwood
 Smeg
 Hama
+Magimix
 Electrolux
 Tassimo
 Saeco
@@ -25,7 +28,27 @@ Illy
 Oster
 Solac
 Menz & konecke
+Melitta
+Nespresso
 Russell hobbs
 OK
 Wmf
 Tristar
+AEG
+Alessi
+Black Temptation
+Bodum
+Braun
+BSH
+Caffè Borbone
+Oroley
+Siemens
+CAL FUSTER
+Casselin
+Cilio
+CODIAC
+Coffee Machine
+DealMux
+Excelsa
+Hario
+Ibili

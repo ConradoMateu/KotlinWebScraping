@@ -2,7 +2,9 @@ package usecases
 
 import datasource.Stores.StoreRepository
 import di.kdi
+import domain.BrandNotFoundException
 import domain.Product
+import domain.parseDouble
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.interactions.Actions
@@ -21,7 +23,12 @@ class AmazonSearchProduct : ISearchProducts {
         webDriver.waitForPageToLoad()
 
         if (brand != null) {
-            this.selectBrand(brand)
+            try {
+                this.selectBrand(brand)
+                Thread.sleep(1000)
+            } catch (e: BrandNotFoundException) {
+                return result
+            }
         }
 
         (1..page).forEach {
@@ -30,7 +37,8 @@ class AmazonSearchProduct : ISearchProducts {
                         val productName = it.findElement(By.className("s-access-detail-page"))
                                 .getAttribute("title")
                         val brand = it.findElements(By.className("a-size-small"))[1].text
-                        val price = it.findElement(By.className("a-color-price")).text.removePrefix("EUR ")
+                        val price = it.findElement(By.className("a-color-price"))
+                                .text.removePrefix("EUR ").parseDouble()
                         Product(productName, brand, price, "Amazon")
                     }
             result.addAll(items)
@@ -43,15 +51,27 @@ class AmazonSearchProduct : ISearchProducts {
     }
 
     private fun selectBrand(brand: String) {
-        webDriver.findElement(By.cssSelector("ul.a-unordered-list:nth-child(12) > li:nth-child(2) > span:nth-child(1) > a:nth-child(1) > span:nth-child(1)")).click()
-        val brands = webDriver.findElements(By.className("refinementLink"))
-        for (i: WebElement in brands) {
-            if (i.text.toLowerCase() == brand.toLowerCase()) {
-                i.click()
-                return
+        val brandsList = webDriver.findElements(By.className("s-ref-link-cursor"))
+        val filteredBrandsList = brandsList.filter { it.text.toLowerCase() == brand.toLowerCase() }
+
+        if (filteredBrandsList.isNotEmpty()) {
+            filteredBrandsList.first().click()
+            return
+        } else {
+            try {
+                webDriver.findElement(By.cssSelector("ul.a-unordered-list:nth-child(12) > li:nth-child(2) > span:nth-child(1) > a:nth-child(1) > span:nth-child(1)")).click()
+                val brands = webDriver.findElements(By.className("refinementLink"))
+                for (i: WebElement in brands) {
+                    if (i.text.toLowerCase() == brand.toLowerCase()) {
+                        i.click()
+                        return
+                    }
+                }
+                throw BrandNotFoundException()
+            } catch (e: Exception) {
+                throw BrandNotFoundException()
             }
         }
-        throw RuntimeException("Brand $brand was not found")
     }
 
 }

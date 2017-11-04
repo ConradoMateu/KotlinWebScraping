@@ -1,6 +1,4 @@
-import javafx.scene.control.ComboBox
-import javafx.scene.control.ListView
-import javafx.scene.control.SelectionMode
+import javafx.scene.control.*
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
@@ -10,6 +8,9 @@ class MainActivity : View() {
 
     private lateinit var brandsListView: ListView<String>
     private lateinit var comboArticles: ComboBox<String>
+    private lateinit var pagesNumber: Spinner<Int>
+    private lateinit var previousResultsKept: CheckBox
+
     private val selectedStores = mutableMapOf(
             "https://www.amazon.es" to true,
             "https://www.elcorteingles.es" to true)
@@ -34,6 +35,14 @@ class MainActivity : View() {
             }
         }
 
+
+        vbox(4) {
+            label("Numero de paginas")
+            pagesNumber = spinner(min = 1, max = 5, initialValue = 1, amountToStepBy = 1)
+            previousResultsKept = checkbox("Mantener resultados anteriores")
+        }
+
+
         hbox {
             vgrow = Priority.ALWAYS
             vbox(6) {
@@ -57,7 +66,7 @@ class MainActivity : View() {
                     val brands = brandsListView.selectionModel.selectedItems
 
                     if (selectedStores.any { (_, value) -> value }) {
-                        presenter.searchItems(article, brands, selectedStores)
+                        presenter.searchItems(article, brands, selectedStores, pagesNumber.value, previousResultsKept.isSelected)
 
                     }
                 }
