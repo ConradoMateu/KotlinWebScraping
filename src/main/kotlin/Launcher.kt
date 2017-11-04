@@ -14,9 +14,6 @@ class Application : App(MainActivity::class) {
         val kodein = Kodein {
             bind<BrandDAO>() with singleton { BrandDAO() }
             bind<ProductDAO>() with singleton { ProductDAO() }
-            bind<WebDriver>() with singleton { ChromeDriver() }
-
-            bind<StoreRepository>("https://www.amazon.es") with provider { AmazonRepository() }
 
             bind<GetBrands>() with provider { GetBrands() }
             bind<GetProducts>() with provider { GetProducts() }

@@ -5,6 +5,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.interactions.Actions
 
 /**
@@ -12,7 +13,7 @@ import org.openqa.selenium.interactions.Actions
  */
 
 abstract class StoreRepository {
-    val driver: WebDriver by kdi()
+    val driver: WebDriver = ChromeDriver()
     abstract fun waitForPageToLoad()
 
     fun browse(str: String) {
@@ -41,5 +42,9 @@ abstract class StoreRepository {
     fun moveToElement(element: WebElement) {
         (driver as JavascriptExecutor).executeScript("arguments[0].scrollIntoView(true);", element)
         Thread.sleep(1000)
+    }
+
+    fun destroy() {
+        driver.close()
     }
 }
