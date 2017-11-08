@@ -13,6 +13,7 @@ class MainActivity : View() {
 
     private val selectedStores = mutableMapOf(
             "https://www.amazon.es" to true,
+            "https://www.fnac.es" to true,
             "https://www.elcorteingles.es" to true)
 
     override val root = vbox(16) {
@@ -27,6 +28,10 @@ class MainActivity : View() {
                 checkbox("Amazon") {
                     isSelected = true
                     action { selectedStores.replace("https://www.amazon.es", isSelected) }
+                }
+                checkbox("Fnac") {
+                    isSelected = true
+                    action { selectedStores.replace("https://www.fnac.es", isSelected) }
                 }
                 checkbox("El corte inglés") {
                     isSelected = true

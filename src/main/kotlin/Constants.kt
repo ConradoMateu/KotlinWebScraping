@@ -21,6 +21,10 @@ object CONSTANTS{
         val URL = "https://www.amazon.es"
     }
 
+    object FNAC {
+        val URL = "https://www.fnac.es"
+    }
+
     object CORTEINGLES{
         val URL = "https://elcorteingles.es"
     }
