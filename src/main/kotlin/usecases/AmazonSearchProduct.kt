@@ -12,7 +12,7 @@ class AmazonSearchProduct : ISearchProducts {
 
     override val webDriver: StoreRepository by kdi(CONSTANTS.AMAZON.URL)
 
-    operator fun invoke(productName: String, brand: String? = null, page: Int = 1): List<Product> {
+    override operator fun invoke(productName: String, brand: String?, page: Int): List<Product> {
         val result = mutableListOf<Product>()
 
         webDriver.browse(CONSTANTS.AMAZON.URL)
