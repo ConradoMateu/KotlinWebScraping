@@ -24,33 +24,11 @@ class MainActivityPresenter : Controller() {
         val products = mutableListOf<Product>()
 
         if (selectedStores.contains("https://www.amazon.es")) {
-            if (brands.isNotEmpty()) {
-                val amazonProducts = brands
-                    .map { brand: String ->
-                        amazonSearchProduct(if (article == articles[0]) "Cafetera" else article, brand, pages)
-                    }.flatten()
-                addProcessedProducts(amazonProducts)
-                products.addAll(amazonProducts)
-            } else {
-                val amazonProducts = amazonSearchProduct(if (article == articles[0]) "Cafetera" else article, page = pages)
-                addProcessedProducts(amazonProducts)
-                products.addAll(amazonProducts)
-            }
+            searchItemsForStore(amazonSearchProduct, brands, article, pages, products)
         }
 
         if (selectedStores.contains("https://www.fnac.es")) {
-            if (brands.isNotEmpty()) {
-                val fnacProducts = brands
-                        .map { brand: String ->
-                            fnacSearchProduct(if (article == articles[0]) "Cafetera" else article, brand, pages)
-                        }.flatten()
-                addProcessedProducts(fnacProducts)
-                products.addAll(fnacProducts)
-            } else {
-                val fnacProducts = fnacSearchProduct(if (article == articles[0]) "Cafetera" else article, page = pages)
-                addProcessedProducts(fnacProducts)
-                products.addAll(fnacProducts)
-            }
+            searchItemsForStore(fnacSearchProduct, brands, article, pages, products)
         }
 
         if (keepResults) {
@@ -59,6 +37,21 @@ class MainActivityPresenter : Controller() {
             ResultsActivity.navigateWithResults(products)
         }
 
+    }
+
+    private fun searchItemsForStore(storeUseCase: ISearchProducts, brands: List<String>, article: String, pages: Int, products: MutableList<Product>) {
+        if (brands.isNotEmpty()) {
+            val storeProducts = brands
+                    .map { brand: String ->
+                        storeUseCase(if (article == articles[0]) "Cafetera" else article, brand, pages)
+                    }.flatten()
+            addProcessedProducts(storeProducts)
+            products.addAll(storeProducts)
+        } else {
+            val storeProducts = storeUseCase(if (article == articles[0]) "Cafetera" else article, page = pages)
+            addProcessedProducts(storeProducts)
+            products.addAll(storeProducts)
+        }
     }
 
 }
