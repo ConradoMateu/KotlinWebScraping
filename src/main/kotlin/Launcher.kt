@@ -1,10 +1,6 @@
 import com.github.salomonbrys.kodein.*
 import datasource.BrandDAO
 import datasource.ProductDAO
-import datasource.Stores.AmazonRepository
-import datasource.Stores.StoreRepository
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import tornadofx.App
 import tornadofx.launch
 import usecases.*

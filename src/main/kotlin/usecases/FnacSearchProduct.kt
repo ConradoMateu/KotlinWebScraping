@@ -1,5 +1,6 @@
 package usecases
 
+import datasource.Stores.FnacRepository
 import datasource.Stores.StoreRepository
 import di.kdi
 import domain.BrandNotFoundException
@@ -10,7 +11,7 @@ import org.openqa.selenium.WebElement
 
 class FnacSearchProduct : ISearchProducts {
 
-    override val webDriver: StoreRepository by kdi(CONSTANTS.FNAC.URL)
+    override val webDriver: StoreRepository = FnacRepository()
     private val getAllBrands: GetBrands by kdi()
     private val allBrandsList = mutableListOf<String>()
 
@@ -40,6 +41,7 @@ class FnacSearchProduct : ISearchProducts {
                 this.selectBrand(brand)
                 Thread.sleep(1000)
             } catch (e: BrandNotFoundException) {
+                webDriver.destroy()
                 return result
             }
         }
@@ -57,10 +59,12 @@ class FnacSearchProduct : ISearchProducts {
             try {
                 webDriver.findElement(By.className("actionNext")).click()
             } catch (ex: Exception) {
+                webDriver.destroy()
                 return result
             }
         }
 
+        webDriver.destroy()
         return result
 
     }
