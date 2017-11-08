@@ -8,13 +8,12 @@ import domain.Product
 import domain.parseDouble
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.interactions.Actions
 
 class AmazonSearchProduct : ISearchProducts {
 
     override val webDriver: StoreRepository = AmazonRepository()
 
-    operator fun invoke(productName: String, brand: String? = null, page: Int = 1): List<Product> {
+    override operator fun invoke(productName: String, brand: String?, page: Int): List<Product> {
         val result = mutableListOf<Product>()
 
         webDriver.browse(CONSTANTS.AMAZON.URL)
@@ -40,8 +39,7 @@ class AmazonSearchProduct : ISearchProducts {
                         val productName = it.findElement(By.className("s-access-detail-page"))
                                 .getAttribute("title")
                         val brand = it.findElements(By.className("a-size-small"))[1].text
-                        val price = it.findElement(By.className("a-color-price"))
-                                .text.removePrefix("EUR ").parseDouble()
+                        val price = extractPriceFromElement(it)
                         Product(productName, brand, price, "Amazon")
                     }
             result.addAll(items)
@@ -57,6 +55,20 @@ class AmazonSearchProduct : ISearchProducts {
 
         webDriver.destroy()
         return result
+    }
+
+    private fun extractPriceFromElement(it: WebElement): Double = try {
+        it.findElement(By.className("a-color-price"))
+                .text.removePrefix("EUR ").parseDouble()
+    } catch (ex: Exception) {
+        try {
+            val natural = it.findElement(By.className("a-price-whole")).text
+            val decimal = it.findElement(By.className("a-price-fraction")).text
+            (natural + decimal).parseDouble()
+        } catch (ex: Exception) {
+            it.findElement(By.className("a-color-price"))
+                    .text.removeSuffix("€").trim().parseDouble()
+        }
     }
 
     private fun selectBrand(brand: String) {

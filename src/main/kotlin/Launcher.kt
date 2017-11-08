@@ -20,6 +20,7 @@ class Application : App(MainActivity::class) {
             bind<GetProcessedProducts>() with provider { GetProcessedProducts() }
             bind<AddProcessedProducts>() with provider { AddProcessedProducts() }
             bind<AmazonSearchProduct>() with provider { AmazonSearchProduct() }
+            bind<FnacSearchProduct>() with provider { FnacSearchProduct() }
         }
     }
 
