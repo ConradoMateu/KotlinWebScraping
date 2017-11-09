@@ -41,6 +41,25 @@ class MainActivityPresenter : Controller() {
             }
         }
 
+        if (selectedStores.contains("https://www.elcorteingles.es")) {
+            if (brands.isNotEmpty()) {
+                products = brands
+                        .map { brand: String ->
+                            searchProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
+                        }.flatten()
+                addProcessedProducts(products)
+            } else {
+                products = searchProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
+                addProcessedProducts(products)
+            }
+
+            if (keepResults) {
+                ResultsActivity.navigateWithPreviousResults()
+            } else {
+                ResultsActivity.navigateWithResults(products)
+            }
+        }
+
     }
 
 }
