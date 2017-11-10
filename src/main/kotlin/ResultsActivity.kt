@@ -42,14 +42,10 @@ class ResultsActivity(private val presenter: ResultsActivityPresenter) : View() 
     }
 
     private fun TableCell<Product, Double>.formatPriceCell(it: Double) {
-        if (it == -1.0) {
-            text = "-"
-            style {
-                backgroundColor += c("#8b0000")
-                textFill = Color.WHITE
-            }
+        text = if (it == -1.0) {
+            "-"
         } else {
-            text = it.toString()
+            it.toString()
         }
     }
 }

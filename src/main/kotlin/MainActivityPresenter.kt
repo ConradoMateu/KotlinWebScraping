@@ -11,6 +11,8 @@ class MainActivityPresenter : Controller() {
     private val addProcessedProducts: AddProcessedProducts by kdi()
     private val amazonSearchProduct: AmazonSearchProduct by kdi()
     private val fnacSearchProduct: FnacSearchProduct by kdi()
+    private val corteInglesSearchProduct: ElCorteInglesSearchProduct by kdi()
+
     val articles = mutableListOf("Todos").observable()
     val brands = mutableListOf<String>().observable()
 
@@ -31,6 +33,10 @@ class MainActivityPresenter : Controller() {
             searchItemsForStore(fnacSearchProduct, brands, article, pages, products)
         }
 
+        if (selectedStores.contains("https://www.elcorteingles.es")) {
+            searchItemsForStore(corteInglesSearchProduct, brands, article, pages, products)
+        }
+
         ResultsActivity.navigateWithPreviousResults()
 
     }
@@ -48,6 +54,7 @@ class MainActivityPresenter : Controller() {
             addProcessedProducts(storeProducts)
             products.addAll(storeProducts)
         }
+
     }
 
 }
