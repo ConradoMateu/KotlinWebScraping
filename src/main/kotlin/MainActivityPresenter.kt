@@ -9,7 +9,8 @@ class MainActivityPresenter : Controller() {
     private val getAllProducts: GetProducts by kdi()
     private val getAllBrands: GetBrands by kdi()
     private val addProcessedProducts: AddProcessedProducts by kdi()
-    private val searchProducts: AmazonSearchProduct by kdi()
+    private val searchAmazonProducts: AmazonSearchProduct by kdi()
+    private val searchElCorteInglesProducts: ElCorteInglesSearchProduct by kdi()
     val articles = mutableListOf("Todos").observable()
     val brands = mutableListOf<String>().observable()
 
@@ -26,11 +27,11 @@ class MainActivityPresenter : Controller() {
             if (brands.isNotEmpty()) {
                 products = brands
                     .map { brand: String ->
-                        searchProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
+                        searchAmazonProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
                     }.flatten()
                 addProcessedProducts(products)
             } else {
-                products = searchProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
+                products = searchAmazonProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
                 addProcessedProducts(products)
             }
 
@@ -45,11 +46,11 @@ class MainActivityPresenter : Controller() {
             if (brands.isNotEmpty()) {
                 products = brands
                         .map { brand: String ->
-                            searchProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
+                            searchElCorteInglesProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
                         }.flatten()
                 addProcessedProducts(products)
             } else {
-                products = searchProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
+                products = searchElCorteInglesProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
                 addProcessedProducts(products)
             }
 
