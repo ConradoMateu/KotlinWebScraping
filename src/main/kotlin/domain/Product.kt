@@ -2,12 +2,12 @@ package domain
 
 import java.text.NumberFormat
 import java.util.*
-import java.util.Collections.replaceAll
 
 data class Product(val name: String,
                    val brand: String,
-                   val price: Double,
-                   val store: String)
+                   val fnac: Double = -1.0,
+                   val corteIngles: Double = -1.0,
+                   val amazon: Double = -1.0)
 
 fun String.parseDouble(): Double {
     val format = NumberFormat.getInstance(Locale.FRANCE)

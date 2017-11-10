@@ -50,7 +50,7 @@ class FnacSearchProduct : ISearchProducts {
                         val productName = it.findElement(By.className("thumbnail-titleLink")).text
                         val brand = extractBrandFrom(it, productName, index)
                         val price = it.findElement(By.className("thumbnail-price")).text.parseDouble()
-                        Product(productName, brand, price, "Fnac")
+                        Product(productName, brand, fnac = price)
                     }
             result.addAll(items)
 

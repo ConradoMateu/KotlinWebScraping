@@ -19,7 +19,7 @@ class MainActivityPresenter : Controller() {
         brands.addAll(getAllBrands())
     }
 
-    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>, pages: Int = 1, keepResults: Boolean = false) {
+    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>, pages: Int = 1) {
         val selectedStores = stores.filter { (_, value) -> value }.map { (key, _) -> key }
         val products = mutableListOf<Product>()
 
@@ -31,11 +31,7 @@ class MainActivityPresenter : Controller() {
             searchItemsForStore(fnacSearchProduct, brands, article, pages, products)
         }
 
-        if (keepResults) {
-            ResultsActivity.navigateWithPreviousResults()
-        } else {
-            ResultsActivity.navigateWithResults(products)
-        }
+        ResultsActivity.navigateWithPreviousResults()
 
     }
 

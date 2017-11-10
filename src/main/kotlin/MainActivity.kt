@@ -71,8 +71,7 @@ class MainActivity : View() {
                     val brands = brandsListView.selectionModel.selectedItems
 
                     if (selectedStores.any { (_, value) -> value }) {
-                        presenter.searchItems(article, brands, selectedStores, pagesNumber.value, previousResultsKept.isSelected)
-
+                        presenter.searchItems(article, brands, selectedStores, pagesNumber.value)
                     }
                 }
             }

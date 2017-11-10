@@ -37,7 +37,7 @@ class AmazonSearchProduct : ISearchProducts {
                                 .getAttribute("title")
                         val brand = it.findElements(By.className("a-size-small"))[1].text
                         val price = extractPriceFromElement(it)
-                        Product(productName, brand, price, "Amazon")
+                        Product(productName, brand, amazon = price)
                     }
             result.addAll(items)
 
