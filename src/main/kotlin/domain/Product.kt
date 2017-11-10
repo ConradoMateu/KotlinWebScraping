@@ -5,9 +5,8 @@ import java.util.*
 
 data class Product(val name: String,
                    val brand: String,
-                   val fnac: Double = -1.0,
-                   val corteIngles: Double = -1.0,
-                   val amazon: Double = -1.0)
+                   val price: Map<String, Double>,
+                   val identifier: String? = null)
 
 fun String.parseDouble(): Double {
     val format = NumberFormat.getInstance(Locale.FRANCE)

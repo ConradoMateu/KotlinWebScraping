@@ -1,5 +1,6 @@
 package usecases
 
+import datasource.BrandDAO
 import datasource.Stores.StoreRepository
 import di.kdi
 import domain.BrandNotFoundException
@@ -8,7 +9,7 @@ import domain.parseDouble
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
-class ElCorteInglesSearchProduct: ISearchProducts {
+class ElCorteInglesSearchProduct: ISearchProducts() {
     override val webDriver: StoreRepository by kdi(CONSTANTS.CORTEINGLES.URL)
 
     override operator fun invoke(productName: String, brand: String?, page: Int): List<Product> {
@@ -34,9 +35,9 @@ class ElCorteInglesSearchProduct: ISearchProducts {
                     .map {
                         val brand = it.findElement(By.className("brand")).text.trim().toLowerCase().capitalize()
                         val productName = it.findElement(By.className("js-product-click")).getAttribute("title")
-                        val productPrice = it.findElement(By.className("product-price"))
+                        val price = it.findElement(By.className("product-price"))
                                 .findElement(By.className("current")).text.parseDouble()
-                        Product(productName, brand, corteIngles = productPrice)
+                        Product(productName, brand, mapOf("CorteIngles" to price), extractBuzzWords(productName))
                     }
 
             result += if (brand != null) {

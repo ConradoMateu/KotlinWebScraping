@@ -1,4 +1,6 @@
 import domain.Product
+import domain.TableItemProduct
+import domain.mapToTableItem
 import javafx.scene.Scene
 import javafx.scene.control.TableCell
 import javafx.scene.paint.Color
@@ -33,15 +35,16 @@ class ResultsActivity(private val presenter: ResultsActivityPresenter) : View() 
         prefHeight = 850.0
 
         center = tableview(presenter.products) {
-            column("Marca", Product::brand)
-            column("El Corte Ingles", Product::corteIngles).cellFormat { formatPriceCell(it) }
-            column("Fnac", Product::fnac).cellFormat { formatPriceCell(it) }
-            column("Amazon", Product::amazon).cellFormat { formatPriceCell(it) }
-            column("Nombre", Product::name).remainingWidth()
+            column("Marca", TableItemProduct::brand)
+            column("Modelo", TableItemProduct::identifier)
+            column("El Corte Ingles", TableItemProduct::corteIngles).cellFormat { formatPriceCell(it) }
+            column("Fnac", TableItemProduct::fnac).cellFormat { formatPriceCell(it) }
+            column("Amazon", TableItemProduct::amazon).cellFormat { formatPriceCell(it) }
+            column("Nombre", TableItemProduct::name).remainingWidth()
         }
     }
 
-    private fun TableCell<Product, Double>.formatPriceCell(it: Double) {
+    private fun TableCell<TableItemProduct, Double>.formatPriceCell(it: Double) {
         text = if (it == -1.0) {
             "-"
         } else {
