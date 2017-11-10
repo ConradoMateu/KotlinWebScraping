@@ -4,11 +4,13 @@ import datasource.ProductDAO
 import datasource.Stores.AmazonRepository
 import datasource.Stores.FnacRepository
 import datasource.Stores.StoreRepository
+import org.apache.commons.io.FileUtils.copyURLToFile
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import tornadofx.App
 import tornadofx.launch
 import usecases.*
+import java.io.File
 
 class Application : App(MainActivity::class) {
     companion object {
@@ -30,7 +32,16 @@ class Application : App(MainActivity::class) {
     }
 
     init {
-        System.setProperty(CONSTANTS.CHROME.TYPE, CONSTANTS.CHROME.PATH)
+        val f = File("bin")
+        if (!f.exists()) {
+            f.mkdirs()
+        }
+        val chromeDriver = File("bin${File.separator}chromedriver${CONSTANTS.getOSExtension()}")
+        if (!chromeDriver.exists()) {
+            chromeDriver.createNewFile()
+            copyURLToFile(CONSTANTS.CHROME.PATH, chromeDriver)
+        }
+        System.setProperty(CONSTANTS.CHROME.TYPE, chromeDriver.absolutePath)
     }
 }
 
