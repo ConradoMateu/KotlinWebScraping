@@ -8,7 +8,7 @@ class ProductDAO {
     private val processedProducts = mutableListOf<Product>()
 
     fun getAll(): List<String> =
-            File(javaClass.classLoader.getResource("productos.txt").file).readLines()
+            javaClass.classLoader.getResourceAsStream("productos.txt").reader().readLines()
 
     fun getProcessedProducts(): List<Product> =
             processedProducts

@@ -7,6 +7,6 @@ import java.io.File
 class BrandDAO {
 
     fun getAll(): List<String> =
-            File(javaClass.classLoader.getResource("marcas.txt").file).readLines()
+            javaClass.classLoader.getResourceAsStream("marcas.txt").reader().readLines()
 
 }
