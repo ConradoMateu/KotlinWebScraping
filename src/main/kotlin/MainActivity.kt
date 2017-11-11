@@ -9,7 +9,6 @@ class MainActivity : View() {
     private lateinit var brandsListView: ListView<String>
     private lateinit var comboArticles: ComboBox<String>
     private lateinit var pagesNumber: Spinner<Int>
-    private lateinit var previousResultsKept: CheckBox
 
     private val selectedStores = mutableMapOf(
             "https://www.amazon.es" to true,
@@ -44,7 +43,6 @@ class MainActivity : View() {
         vbox(4) {
             label("Numero de paginas")
             pagesNumber = spinner(min = 1, max = 5, initialValue = 1, amountToStepBy = 1)
-            previousResultsKept = checkbox("Mantener resultados anteriores")
         }
 
 
@@ -71,8 +69,7 @@ class MainActivity : View() {
                     val brands = brandsListView.selectionModel.selectedItems
 
                     if (selectedStores.any { (_, value) -> value }) {
-                        presenter.searchItems(article, brands, selectedStores, pagesNumber.value, previousResultsKept.isSelected)
-
+                        presenter.searchItems(article, brands, selectedStores, pagesNumber.value)
                     }
                 }
             }

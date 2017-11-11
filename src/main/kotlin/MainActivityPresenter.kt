@@ -11,7 +11,8 @@ class MainActivityPresenter : Controller() {
     private val addProcessedProducts: AddProcessedProducts by kdi()
     private val amazonSearchProduct: AmazonSearchProduct by kdi()
     private val fnacSearchProduct: FnacSearchProduct by kdi()
-    private val corteInglesProduct: ElCorteInglesSearchProduct by kdi()
+    private val corteInglesSearchProduct: ElCorteInglesSearchProduct by kdi()
+
     val articles = mutableListOf("Todos").observable()
     val brands = mutableListOf<String>().observable()
 
@@ -20,7 +21,7 @@ class MainActivityPresenter : Controller() {
         brands.addAll(getAllBrands())
     }
 
-    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>, pages: Int = 1, keepResults: Boolean = false) {
+    fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>, pages: Int = 1) {
         val selectedStores = stores.filter { (_, value) -> value }.map { (key, _) -> key }
         val products = mutableListOf<Product>()
 
@@ -32,15 +33,11 @@ class MainActivityPresenter : Controller() {
             searchItemsForStore(fnacSearchProduct, brands, article, pages, products)
         }
 
-        if (selectedStores.contains(CONSTANTS.CORTEINGLES.URL)){
-            searchItemsForStore(corteInglesProduct, brands, article, pages, products)
+        if (selectedStores.contains("https://www.elcorteingles.es")) {
+            searchItemsForStore(corteInglesSearchProduct, brands, article, pages, products)
         }
 
-        if (keepResults) {
-            ResultsActivity.navigateWithPreviousResults()
-        } else {
-            ResultsActivity.navigateWithResults(products)
-        }
+        ResultsActivity.navigateWithPreviousResults()
 
     }
 

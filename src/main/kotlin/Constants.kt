@@ -14,7 +14,7 @@ object CONSTANTS{
 
     object CHROME{
         val TYPE = "webdriver.chrome.driver"
-        val PATH = System.getProperty("user.dir")+"/Chrome/chromedriver${getOSExtension()}"
+        val PATH = MainActivity::class.java.getResource("/chrome/chromedriver${getOSExtension()}")
     }
 
     object AMAZON{
