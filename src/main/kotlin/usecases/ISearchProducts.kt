@@ -17,7 +17,7 @@ abstract class ISearchProducts {
                 "de", "para", "capsulas", "espresso", "automatica", "filtro", "molinillo", "multibebida",
                 "electrica", "expresso", "vivy", "grind", "goteo", "brew", "superautomatica", "n",
                 "senseo", "intense", "coffee", "maker", "blanco", "blanca", "con", "jarra",
-                "dolce", "gusto", "f", "nescafe", "italiana"
+                "dolce", "gusto", "f", "nescafe", "italiana", "hidro-presion", "russell", "hobbs"
         ).union(brandsDAO.getAll().map(String::toLowerCase)).toList()
     }
 
