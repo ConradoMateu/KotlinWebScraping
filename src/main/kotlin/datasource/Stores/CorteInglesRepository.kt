@@ -5,10 +5,6 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import java.util.concurrent.TimeUnit
 
-/**
- * Created by ConradoMateu on 27/10/2017.
- */
-
 class CorteInglesRepository : StoreRepository() {
 
     override fun waitForPageToLoad() {

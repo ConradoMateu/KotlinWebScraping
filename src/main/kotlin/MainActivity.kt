@@ -52,7 +52,7 @@ class MainActivity : View() {
                 hgrow = Priority.ALWAYS
 
                 label("Seleccione las marcas")
-                brandsListView = listview(presenter.brands) {
+                brandsListView = listview(presenter.brands.sorted()) {
                     selectionModel.selectionMode = SelectionMode.MULTIPLE
                 }
             }

@@ -54,7 +54,6 @@ class MainActivityPresenter : Controller() {
             addProcessedProducts(storeProducts)
             products.addAll(storeProducts)
         }
-
     }
 
 }
