@@ -1,6 +1,7 @@
 package usecases
 
 import datasource.Stores.FnacRepository
+import datasource.BrandDAO
 import datasource.Stores.StoreRepository
 import di.kdi
 import domain.BrandNotFoundException
@@ -9,15 +10,10 @@ import domain.parseDouble
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
-class FnacSearchProduct : ISearchProducts {
+class FnacSearchProduct : ISearchProducts() {
 
     override val webDriver: StoreRepository = FnacRepository()
-    private val getAllBrands: GetBrands by kdi()
-    private val allBrandsList = mutableListOf<String>()
-
-    init {
-        allBrandsList.addAll(getAllBrands())
-    }
+    private val allBrandsList: List<String> = brandsDAO.getAll()
 
     override fun invoke(productName: String, brand: String?, page: Int): List<Product> {
         val result = mutableListOf<Product>()
@@ -52,7 +48,7 @@ class FnacSearchProduct : ISearchProducts {
                         val productName = it.findElement(By.className("thumbnail-titleLink")).text
                         val brand = extractBrandFrom(it, productName, index)
                         val price = it.findElement(By.className("thumbnail-price")).text.parseDouble()
-                        Product(productName, brand, price, "Fnac")
+                        Product(productName, brand, mapOf("Fnac" to price), extractBuzzWords(productName))
                     }
             result.addAll(items)
 

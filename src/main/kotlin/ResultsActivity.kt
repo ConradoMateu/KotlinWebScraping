@@ -1,5 +1,9 @@
 import domain.Product
+import domain.TableItemProduct
+import domain.mapToTableItem
 import javafx.scene.Scene
+import javafx.scene.control.TableCell
+import javafx.scene.paint.Color
 import javafx.stage.Stage
 import tornadofx.*
 import usecases.GetProcessedProducts
@@ -31,10 +35,20 @@ class ResultsActivity(private val presenter: ResultsActivityPresenter) : View() 
         prefHeight = 850.0
 
         center = tableview(presenter.products) {
-            column("Brand", Product::brand)
-            column("Price", Product::price)
-            column("Store", Product::store)
-            column("Name", Product::name).remainingWidth()
+            column("Marca", TableItemProduct::brand)
+            column("Modelo", TableItemProduct::identifier)
+            column("El Corte Ingles", TableItemProduct::corteIngles).cellFormat { formatPriceCell(it) }
+            column("Fnac", TableItemProduct::fnac).cellFormat { formatPriceCell(it) }
+            column("Amazon", TableItemProduct::amazon).cellFormat { formatPriceCell(it) }
+            column("Nombre", TableItemProduct::name).remainingWidth()
+        }
+    }
+
+    private fun TableCell<TableItemProduct, Double>.formatPriceCell(it: Double) {
+        text = if (it == -1.0) {
+            "-"
+        } else {
+            it.toString()
         }
     }
 }

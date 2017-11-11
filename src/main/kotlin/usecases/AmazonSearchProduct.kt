@@ -9,7 +9,7 @@ import domain.parseDouble
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
-class AmazonSearchProduct : ISearchProducts {
+class AmazonSearchProduct : ISearchProducts() {
 
     override val webDriver: StoreRepository = AmazonRepository()
 
@@ -40,7 +40,7 @@ class AmazonSearchProduct : ISearchProducts {
                                 .getAttribute("title")
                         val brand = it.findElements(By.className("a-size-small"))[1].text
                         val price = extractPriceFromElement(it)
-                        Product(productName, brand, price, "Amazon")
+                        Product(productName, brand, mapOf("Amazon" to price), extractBuzzWords(productName))
                     }
             result.addAll(items)
 
