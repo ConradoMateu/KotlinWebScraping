@@ -52,6 +52,7 @@ class MainActivityPresenter : Controller() {
         val result = when (storeUrl) {
             CONSTANTS.FNAC.URL -> fnacSearchProduct(productName, brand, pages)
             CONSTANTS.AMAZON.URL -> amazonSearchProduct(productName, brand, pages)
+            CONSTANTS.CORTEINGLES.URL -> corteInglesSearchProduct(productName, brand, pages)
             else -> emptyList()
         }
         addProcessedProducts(result)

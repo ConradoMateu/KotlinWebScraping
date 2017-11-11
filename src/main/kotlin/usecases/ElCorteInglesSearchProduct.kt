@@ -1,6 +1,7 @@
 package usecases
 
 import datasource.BrandDAO
+import datasource.Stores.CorteInglesRepository
 import datasource.Stores.StoreRepository
 import di.kdi
 import domain.BrandNotFoundException
@@ -10,7 +11,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
 class ElCorteInglesSearchProduct: ISearchProducts() {
-    override val webDriver: StoreRepository by kdi(CONSTANTS.CORTEINGLES.URL)
+    override val webDriver: StoreRepository = CorteInglesRepository()
 
     override operator fun invoke(productName: String, brand: String?, page: Int): List<Product> {
         val result = mutableListOf<Product>()

@@ -26,6 +26,6 @@ object CONSTANTS{
     }
 
     object CORTEINGLES{
-        val URL = "https://elcorteingles.es"
+        val URL = "https://www.elcorteingles.es"
     }
 }
