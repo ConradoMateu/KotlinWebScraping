@@ -11,6 +11,7 @@ class MainActivityPresenter : Controller() {
     private val addProcessedProducts: AddProcessedProducts by kdi()
     private val amazonSearchProduct: AmazonSearchProduct by kdi()
     private val fnacSearchProduct: FnacSearchProduct by kdi()
+    private val corteInglesProduct: ElCorteInglesSearchProduct by kdi()
     val articles = mutableListOf("Todos").observable()
     val brands = mutableListOf<String>().observable()
 
@@ -29,6 +30,10 @@ class MainActivityPresenter : Controller() {
 
         if (selectedStores.contains("https://www.fnac.es")) {
             searchItemsForStore(fnacSearchProduct, brands, article, pages, products)
+        }
+
+        if (selectedStores.contains(CONSTANTS.CORTEINGLES.URL)){
+            searchItemsForStore(corteInglesProduct, brands, article, pages, products)
         }
 
         if (keepResults) {
