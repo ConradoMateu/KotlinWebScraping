@@ -6,10 +6,6 @@ import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import java.util.concurrent.TimeUnit
 
-/**
- * Created by ConradoMateu on 26/10/2017.
- */
-
 class AmazonRepository : StoreRepository() {
 
     override fun waitForPageToLoad() {

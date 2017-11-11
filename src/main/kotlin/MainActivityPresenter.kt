@@ -9,8 +9,9 @@ class MainActivityPresenter : Controller() {
     private val getAllProducts: GetProducts by kdi()
     private val getAllBrands: GetBrands by kdi()
     private val addProcessedProducts: AddProcessedProducts by kdi()
-    private val searchAmazonProducts: AmazonSearchProduct by kdi()
-    private val searchElCorteInglesProducts: ElCorteInglesSearchProduct by kdi()
+    private val amazonSearchProduct: AmazonSearchProduct by kdi()
+    private val fnacSearchProduct: FnacSearchProduct by kdi()
+    private val corteInglesProduct: ElCorteInglesSearchProduct by kdi()
     val articles = mutableListOf("Todos").observable()
     val brands = mutableListOf<String>().observable()
 
@@ -21,46 +22,41 @@ class MainActivityPresenter : Controller() {
 
     fun searchItems(article: String, brands: List<String>, stores: MutableMap<String, Boolean>, pages: Int = 1, keepResults: Boolean = false) {
         val selectedStores = stores.filter { (_, value) -> value }.map { (key, _) -> key }
-        var products: List<Product>
+        val products = mutableListOf<Product>()
 
         if (selectedStores.contains("https://www.amazon.es")) {
-            if (brands.isNotEmpty()) {
-                products = brands
+            searchItemsForStore(amazonSearchProduct, brands, article, pages, products)
+        }
+
+        if (selectedStores.contains("https://www.fnac.es")) {
+            searchItemsForStore(fnacSearchProduct, brands, article, pages, products)
+        }
+
+        if (selectedStores.contains(CONSTANTS.CORTEINGLES.URL)){
+            searchItemsForStore(corteInglesProduct, brands, article, pages, products)
+        }
+
+        if (keepResults) {
+            ResultsActivity.navigateWithPreviousResults()
+        } else {
+            ResultsActivity.navigateWithResults(products)
+        }
+
+    }
+
+    private fun searchItemsForStore(storeUseCase: ISearchProducts, brands: List<String>, article: String, pages: Int, products: MutableList<Product>) {
+        if (brands.isNotEmpty()) {
+            val storeProducts = brands
                     .map { brand: String ->
-                        searchAmazonProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
+                        storeUseCase(if (article == articles[0]) "Cafetera" else article, brand, pages)
                     }.flatten()
-                addProcessedProducts(products)
-            } else {
-                products = searchAmazonProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
-                addProcessedProducts(products)
-            }
-
-            if (keepResults) {
-                ResultsActivity.navigateWithPreviousResults()
-            } else {
-                ResultsActivity.navigateWithResults(products)
-            }
+            addProcessedProducts(storeProducts)
+            products.addAll(storeProducts)
+        } else {
+            val storeProducts = storeUseCase(if (article == articles[0]) "Cafetera" else article, page = pages)
+            addProcessedProducts(storeProducts)
+            products.addAll(storeProducts)
         }
-
-        if (selectedStores.contains("https://www.elcorteingles.es")) {
-            if (brands.isNotEmpty()) {
-                products = brands
-                        .map { brand: String ->
-                            searchElCorteInglesProducts(if (article == articles[0]) "Cafetera" else article, brand, pages)
-                        }.flatten()
-                addProcessedProducts(products)
-            } else {
-                products = searchElCorteInglesProducts(if (article == articles[0]) "Cafetera" else article, page = pages)
-                addProcessedProducts(products)
-            }
-
-            if (keepResults) {
-                ResultsActivity.navigateWithPreviousResults()
-            } else {
-                ResultsActivity.navigateWithResults(products)
-            }
-        }
-
     }
 
 }

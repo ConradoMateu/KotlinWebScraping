@@ -3,6 +3,7 @@ import datasource.BrandDAO
 import datasource.ProductDAO
 import datasource.Stores.AmazonRepository
 import datasource.Stores.CorteInglesRepository
+import datasource.Stores.FnacRepository
 import datasource.Stores.StoreRepository
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -19,12 +20,15 @@ class Application : App(MainActivity::class) {
 
             bind<StoreRepository>("https://www.amazon.es") with provider { AmazonRepository() }
             bind<StoreRepository>(CONSTANTS.CORTEINGLES.URL) with provider { CorteInglesRepository() }
+            bind<StoreRepository>("https://www.fnac.es") with provider { FnacRepository() }
+
             bind<GetBrands>() with provider { GetBrands() }
             bind<GetProducts>() with provider { GetProducts() }
             bind<GetProcessedProducts>() with provider { GetProcessedProducts() }
             bind<AddProcessedProducts>() with provider { AddProcessedProducts() }
             bind<AmazonSearchProduct>() with provider { AmazonSearchProduct() }
             bind<ElCorteInglesSearchProduct>() with provider { ElCorteInglesSearchProduct() }
+            bind<FnacSearchProduct>() with provider { FnacSearchProduct() }
         }
     }
 
