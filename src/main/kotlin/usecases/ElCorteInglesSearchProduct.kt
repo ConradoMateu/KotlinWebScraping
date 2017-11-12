@@ -59,8 +59,11 @@ class ElCorteInglesSearchProduct: ISearchProducts() {
     }
 
     private fun selectBrand(brand: String) {
-            val brandsList = webDriver.findElements(By.className("facet-popup"))
-            val filteredBrandsList = brandsList.filter { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
+            val brandsList = webDriver.findElements(By.className("dimensions"))
+            val brandListFiltered = brandsList.map {
+                it.findElement(By.className("facet-popup"))
+            }
+            val filteredBrandsList = brandListFiltered.filter { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
 
             if (filteredBrandsList.isNotEmpty()) {
                 filteredBrandsList.first().click()
