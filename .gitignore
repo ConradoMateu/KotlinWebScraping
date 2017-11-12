@@ -1,7 +1,6 @@
 .gradle
 /build/
 /out/
-/bin/
 !gradle/wrapper/gradle-wrapper.jar
 
 # Ignore Gradle GUI config

@@ -35,16 +35,7 @@ class Application : App(MainActivity::class) {
     }
 
     init {
-        val f = File("bin")
-        if (!f.exists()) {
-            f.mkdirs()
-        }
-        val chromeDriver = File("bin${File.separator}chromedriver${CONSTANTS.getOSExtension()}")
-        if (!chromeDriver.exists()) {
-            chromeDriver.createNewFile()
-            copyURLToFile(CONSTANTS.CHROME.PATH, chromeDriver)
-        }
-        System.setProperty(CONSTANTS.CHROME.TYPE, chromeDriver.absolutePath)
+        System.setProperty(CONSTANTS.CHROME.TYPE, CONSTANTS.CHROME.PATH)
     }
 }
 
