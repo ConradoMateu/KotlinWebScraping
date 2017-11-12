@@ -27,6 +27,7 @@ class ElCorteInglesSearchProduct: ISearchProducts() {
                 this.selectBrand(brand)
                 Thread.sleep(1000)
             } catch (e: BrandNotFoundException) {
+                webDriver.destroy()
                 return result
             }
         }
@@ -51,10 +52,12 @@ class ElCorteInglesSearchProduct: ISearchProducts() {
                 val nextPage = webDriver.findElement(By.cssSelector("ul.a-unordered-list::nth-child(8)")).getAttribute("href")
                 webDriver.browse(nextPage)
             } catch (ex: Exception) {
+                webDriver.destroy()
                 return result
             }
         }
 
+        webDriver.destroy()
         return result
     }
 
