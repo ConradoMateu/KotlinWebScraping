@@ -1,6 +1,6 @@
 package usecases
 
-import datasource.BrandDAO
+import datasource.Stores.AmazonRepository
 import datasource.Stores.StoreRepository
 import di.kdi
 import domain.BrandNotFoundException
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement
 
 class AmazonSearchProduct : ISearchProducts() {
 
-    override val webDriver: StoreRepository by kdi(CONSTANTS.AMAZON.URL)
+    override val webDriver: StoreRepository = AmazonRepository()
 
     override operator fun invoke(productName: String, brand: String?, page: Int): List<Product> {
         val result = mutableListOf<Product>()
@@ -21,12 +21,14 @@ class AmazonSearchProduct : ISearchProducts() {
 
         webDriver.search(inputBar, productName)
         webDriver.waitForPageToLoad()
+        Thread.sleep(2000)
 
         if (brand != null) {
             try {
                 this.selectBrand(brand)
                 Thread.sleep(1000)
             } catch (e: BrandNotFoundException) {
+                webDriver.destroy()
                 return result
             }
         }
@@ -45,11 +47,13 @@ class AmazonSearchProduct : ISearchProducts() {
             try {
                 val nextPage = webDriver.findElement(By.id("pagnNextLink")).getAttribute("href")
                 webDriver.browse(nextPage)
-            } catch (ex: Exception) {
+            } catch (e: Exception) {
+                webDriver.destroy()
                 return result
             }
         }
 
+        webDriver.destroy()
         return result
     }
 

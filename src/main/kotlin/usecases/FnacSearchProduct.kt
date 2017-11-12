@@ -1,5 +1,6 @@
 package usecases
 
+import datasource.Stores.FnacRepository
 import datasource.BrandDAO
 import datasource.Stores.StoreRepository
 import di.kdi
@@ -11,7 +12,7 @@ import org.openqa.selenium.WebElement
 
 class FnacSearchProduct : ISearchProducts() {
 
-    override val webDriver: StoreRepository by kdi(CONSTANTS.FNAC.URL)
+    override val webDriver: StoreRepository = FnacRepository()
     private val allBrandsList: List<String> = brandsDAO.getAll()
 
     override fun invoke(productName: String, brand: String?, page: Int): List<Product> {
@@ -36,6 +37,7 @@ class FnacSearchProduct : ISearchProducts() {
                 this.selectBrand(brand)
                 Thread.sleep(1000)
             } catch (e: BrandNotFoundException) {
+                webDriver.destroy()
                 return result
             }
         }
@@ -53,10 +55,12 @@ class FnacSearchProduct : ISearchProducts() {
             try {
                 webDriver.findElement(By.className("actionNext")).click()
             } catch (ex: Exception) {
+                webDriver.destroy()
                 return result
             }
         }
 
+        webDriver.destroy()
         return result
 
     }

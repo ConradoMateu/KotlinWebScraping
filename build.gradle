@@ -37,9 +37,17 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     compile 'no.tornado:tornadofx:1.7.11'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.19.3'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.19.3'
 
     compile 'com.github.salomonbrys.kodein:kodein:4.1.0'
     compile 'org.seleniumhq.selenium:selenium-java:3.0.1'
 
     testCompile 'junit:junit:4.12'
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
