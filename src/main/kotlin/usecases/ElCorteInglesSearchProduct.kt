@@ -39,7 +39,8 @@ class ElCorteInglesSearchProduct: ISearchProducts() {
                         val productName = it.findElement(By.className("js-product-click")).getAttribute("title")
                         val price = it.findElement(By.className("product-price"))
                                 .findElement(By.className("current")).text.parseDouble()
-                        Product(productName, brand, mapOf("CorteIngles" to price), extractBuzzWords(productName))
+                        val identifier = extractBuzzWords(productName) ?: productName
+                        Product(productName, brand, mapOf("CorteIngles" to price), identifier)
                     }
 
             result += if (brand != null) {

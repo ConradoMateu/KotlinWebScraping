@@ -48,7 +48,8 @@ class FnacSearchProduct : ISearchProducts() {
                         val productName = it.findElement(By.className("thumbnail-titleLink")).text
                         val brand = extractBrandFrom(it, productName, index)
                         val price = it.findElement(By.className("thumbnail-price")).text.parseDouble()
-                        Product(productName, brand, mapOf("Fnac" to price), extractBuzzWords(productName))
+                        val identifier = extractBuzzWords(productName) ?: productName
+                        Product(productName, brand, mapOf("Fnac" to price), identifier)
                     }
             result.addAll(items)
 
