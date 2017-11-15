@@ -48,7 +48,8 @@ class FnacSearchProduct : ISearchProducts() {
                         val productName = it.findElement(By.className("thumbnail-titleLink")).text
                         val brand = extractBrandFrom(it, productName, index)
                         val price = it.findElement(By.className("thumbnail-price")).text.parseDouble()
-                        Product(productName, brand, mapOf("Fnac" to price), extractBuzzWords(productName))
+                        val identifier = extractBuzzWords(productName) ?: productName
+                        Product(productName, brand, mapOf("Fnac" to price), identifier)
                     }
             result.addAll(items)
 
@@ -79,7 +80,7 @@ class FnacSearchProduct : ISearchProducts() {
         }
 
         val brandsList = webDriver.findElements(By.className("Filters-choice"))
-        val brandItem = brandsList.find { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
+        val brandItem = brandsList.find { it.getAttribute("title").replace("'","").toLowerCase() == brand.replace("'","").toLowerCase() }
 
         if (brandItem != null) brandItem.click()
         else throw BrandNotFoundException()
