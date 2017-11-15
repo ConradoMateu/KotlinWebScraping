@@ -10,7 +10,7 @@ import domain.parseDouble
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
-class ElCorteInglesSearchProduct: ISearchProducts() {
+class ElCorteInglesSearchProduct : ISearchProducts() {
     override val webDriver: StoreRepository = CorteInglesRepository()
 
     override operator fun invoke(productName: String, brand: String?, page: Int): List<Product> {
@@ -63,32 +63,23 @@ class ElCorteInglesSearchProduct: ISearchProducts() {
     }
 
     private fun selectBrand(brand: String) {
-            val brandsList = webDriver.findElements(By.className("dimensions"))
-            val brandListFiltered = brandsList.map {
-                it.findElement(By.className("facet-popup"))
-            }
-            val filteredBrandsList = brandListFiltered.filter { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
+
+        try {
+            webDriver.findElement(By.cssSelector("#filters > li.geci-search-desktop.sliding.hidden-m.hidden-s.hidden-xs.hidden-xxs.geci-search.geci-search-current > ul:nth-child(3) > li:nth-child(11) > a")).click()
+            val brandsList = webDriver.findElements(By.id(brand))
+            val filteredBrandsList = brandsList.filter { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
 
             if (filteredBrandsList.isNotEmpty()) {
                 filteredBrandsList.first().click()
+                webDriver.findElement(By.xpath("//*[@id=\"mdl-url-filter\"]")).click()
                 return
-            } else {
-                try {
-                    webDriver.findElement(By.cssSelector("#filters > li.geci-search-desktop.sliding.hidden-m.hidden-s.hidden-xs.hidden-xxs.geci-search.geci-search-current > ul:nth-child(3) > li:nth-child(11) > a")).click()
-                    val brandsList = webDriver.findElements(By.id(brand))
-                    val filteredBrandsList = brandsList.filter { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
-
-                    if (filteredBrandsList.isNotEmpty()) {
-                        filteredBrandsList.first().click()
-                        webDriver.findElement(By.xpath("//*[@id=\"mdl-url-filter\"]")).click()
-                        return
-                    }
-
-                    throw BrandNotFoundException()
-                } catch (e: Exception) {
-                    throw BrandNotFoundException()
-                }
             }
+
+            throw BrandNotFoundException()
+        } catch (e: Exception) {
+            throw BrandNotFoundException()
+        }
+
     }
 
 }

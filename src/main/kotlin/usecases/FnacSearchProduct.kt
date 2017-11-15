@@ -80,7 +80,7 @@ class FnacSearchProduct : ISearchProducts() {
         }
 
         val brandsList = webDriver.findElements(By.className("Filters-choice"))
-        val brandItem = brandsList.find { it.getAttribute("title").toLowerCase() == brand.toLowerCase() }
+        val brandItem = brandsList.find { it.getAttribute("title").replace("'","").toLowerCase() == brand.replace("'","").toLowerCase() }
 
         if (brandItem != null) brandItem.click()
         else throw BrandNotFoundException()
